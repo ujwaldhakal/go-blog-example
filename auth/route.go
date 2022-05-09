@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	_ "github.com/gin-gonic/gin"
+	auth "github.com/ujwaldhakal/go-blog-example/auth/service"
 	"net/http"
 )
 
@@ -25,6 +26,6 @@ func forgotPassword(c *gin.Context) {
 func RegisterAuthRoutes(route *gin.Engine)  {
 	v1 := route.Group("/v1")
 	v1.GET("/register", register)
-	v1.POST("/login", login)
+	v1.POST("/login", auth.Login)
 	v1.POST("/forgot-password", forgotPassword)
 }
