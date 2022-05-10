@@ -1,5 +1,3 @@
-
-
 FROM golang:latest as base
 
 WORKDIR /app
