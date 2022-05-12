@@ -8,7 +8,16 @@ import (
 func Authenticate(username string, password string) bool {
 	con := db.GetConnection()
 	var users []user.User
-	con.Where(&user.User{Email: &username, Password: &password}).Find(&users)
+	con.Where(&user.User{Email: username, Password: password}).Find(&users)
+
+	return len(users) > 0
+}
+
+
+func Register(username string, password string) bool {
+	con := db.GetConnection()
+	var users []user.User
+	con.Where(&user.User{Email: username, Password: password}).Find(&users)
 
 	return len(users) > 0
 }
