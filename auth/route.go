@@ -13,11 +13,6 @@ func register(c *gin.Context) {
 	c.String(http.StatusOK,"registered")
 }
 
-func login(c *gin.Context) {
-	fmt.Println("login called")
-	c.String(http.StatusOK,"Login")
-}
-
 func forgotPassword(c *gin.Context) {
 	fmt.Println("forgotpassword called")
 	c.String(http.StatusOK,"pw reset")

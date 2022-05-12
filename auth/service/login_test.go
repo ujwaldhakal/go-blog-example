@@ -19,6 +19,9 @@ import (
 func setupRouter() (*gin.Engine, *httptest.ResponseRecorder) {
 	r := gin.Default()
 
+	db := db2.GetConnection()
+	db.AutoMigrate(&user.User{})
+
 	r.POST("v1/login",auth.Login)
 
 	w := httptest.NewRecorder()
@@ -29,6 +32,7 @@ func setupRouter() (*gin.Engine, *httptest.ResponseRecorder) {
 func TestLoginWhenEmptyPayloadIsProvided(t *testing.T) {
 
 	r,w := setupRouter()
+	defer TearDown()
 	req, _ := http.NewRequest("POST", "/v1/login", nil)
 	r.ServeHTTP(w, req)
 
@@ -46,7 +50,8 @@ func TestLoginWhenEmptyPayloadIsProvided(t *testing.T) {
 func TestLoginWhenInvalidPayloadIsProvided(t *testing.T) {
 
 	r,w := setupRouter()
-	var jsonStr = []byte(`{"username":"username", "password": "password"}`)
+	defer TearDown()
+	var jsonStr = []byte(`{"email":"username", "password": "password"}`)
 
 	req, _ := http.NewRequest("POST", "/v1/login", bytes.NewBuffer(jsonStr))
 	req.Header.Set("Content-Type", "application/json")
@@ -63,10 +68,11 @@ func TestLoginWhenInvalidPayloadIsProvided(t *testing.T) {
 }
 
 
-func TestLoginWhenValidCredentialsIsProdivded(t *testing.T) {
+func TestLoginWhenValidCredentialsIsProvided(t *testing.T) {
 	r,w := setupRouter()
+	TearDown()
 	hydrateData()
-	var jsonStr = []byte(`{"username":"john@doe.com", "password": "password"}`)
+	var jsonStr = []byte(`{"email":"john@doe.com", "password": "password"}`)
 	req, _ := http.NewRequest("POST", "/v1/login", bytes.NewBuffer(jsonStr))
 	req.Header.Set("Content-Type", "application/json")
 	r.ServeHTTP(w, req)
@@ -81,9 +87,14 @@ func TestLoginWhenValidCredentialsIsProdivded(t *testing.T) {
 	assert.NotEmpty(t,token)
 }
 
-func hydrateData()  {
+func TearDown() {
 	db := db2.GetConnection()
 	db.AutoMigrate(&user.User{})
+	db.Raw("Truncate table users")
+}
+
+func hydrateData()  {
+	db := db2.GetConnection()
 	db.Create(&user.User{
 		ID:          0,
 		Name:        "ujwal",

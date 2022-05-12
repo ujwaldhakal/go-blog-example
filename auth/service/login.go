@@ -2,12 +2,13 @@ package auth
 
 import (
 	"fmt"
+	_ "fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/ujwaldhakal/go-blog-example/auth/repository"
 	"net/http"
 )
 type LoginRequest struct {
- 	Username  string `json:"username"  binding:"required"`
+ 	Email  string `json:"email"  binding:"required"`
 
 	Password string  `json:"password"  binding:"required"`
 }
@@ -42,7 +43,7 @@ func Login(c *gin.Context)  {
 	}
 
 
-	 userName := requestBody.Username
+	 userName := requestBody.Email
 	 password := requestBody.Password
 
 
@@ -53,11 +54,8 @@ func Login(c *gin.Context)  {
 		 return
 	 }
 
-	 fmt.Println("is logged in",isAuthenticated)
-	 fmt.Println("upto here")
 	 token,_ := GenerateJwtToken(userName)
 	dataMap := make(map[string]string)
 	dataMap["token"] = token
-	fmt.Println("got map",dataMap)
 	c.JSON(200,respond(&Response{status: "success", code: http.StatusOK, message: "success", data: dataMap}))
 }
