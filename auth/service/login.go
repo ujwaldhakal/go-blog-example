@@ -32,6 +32,16 @@ func respond(response *Response) gin.H {
 }
 
 
+// @BasePath /v1
+// Login
+// @Summary Authenticates when provided with login details
+// @Schemes
+// @Description Logins when you provide details
+// @Accept json
+// @Produce json
+// @Param Body body LoginRequest true "Parameters should not be empty"
+// @Success 200 {string} Helloworld
+// @Router /login [post]
 func Login(c *gin.Context)  {
 	var requestBody LoginRequest
 
