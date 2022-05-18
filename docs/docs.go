@@ -41,7 +41,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/auth.Response"
                         }
                     }
                 }
@@ -63,6 +63,9 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        },
+        "auth.Response": {
+            "type": "object"
         }
     }
 }`

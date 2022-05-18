@@ -9,6 +9,8 @@ definitions:
     - email
     - password
     type: object
+  auth.Response:
+    type: object
 info:
   contact: {}
 paths:
@@ -30,6 +32,6 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/auth.Response'
       summary: Authenticates when provided with login details
 swagger: "2.0"

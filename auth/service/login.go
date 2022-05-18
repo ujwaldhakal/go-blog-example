@@ -14,9 +14,9 @@ type LoginRequest struct {
 }
 
 type Response struct {
-	status string
-	message string
-	code int
+	status string `json:"status" format:"string"`
+	message string `json:"message" format:"string"`
+	code int `json:"code" format:"int"`
 	data interface{}
 }
 
@@ -40,7 +40,7 @@ func respond(response *Response) gin.H {
 // @Accept json
 // @Produce json
 // @Param Body body LoginRequest true "Parameters should not be empty"
-// @Success 200 {string} Helloworld
+// @Success 200 {object} Response
 // @Router /login [post]
 func Login(c *gin.Context)  {
 	var requestBody LoginRequest
