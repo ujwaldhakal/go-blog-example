@@ -9,14 +9,14 @@ type Response struct {
 	Status  string `json:"status" format:"string"`
 	Message string `json:"message" format:"string"`
 	Code    int    `json:"code" format:"int"`
-	data    interface{}
+	Data    interface{} `json:"code" format:"json"`
 }
 
 func respondWithSuccess(response *Response) gin.H {
 	g := gin.H{"message": response.Message}
 	g["status"] = "success"
-	if response.data != nil {
-		g["data"] = response.data
+	if response.Data != nil {
+		g["data"] = response.Data
 	}
 
 	return g
@@ -25,8 +25,8 @@ func respondWithSuccess(response *Response) gin.H {
 func respondWithError(response *Response) gin.H {
 	g := gin.H{"message": response.Message}
 	g["status"] = "error"
-	if response.data != nil {
-		g["data"] = response.data
+	if response.Data != nil {
+		g["data"] = response.Data
 	}
 
 	return g
@@ -42,4 +42,8 @@ func RespondCreated(c *gin.Context, response Response) {
 
 func RespondUnauthorized(c *gin.Context, errorMessage string) {
 	c.JSON(http.StatusUnauthorized, respondWithError(&Response{Message: errorMessage}))
+}
+
+func RespondOk(c *gin.Context, response Response) {
+	c.JSON(http.StatusOK, respondWithSuccess(&response))
 }
