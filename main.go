@@ -5,6 +5,7 @@ import (
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/ujwaldhakal/go-blog-example/auth"
+	"github.com/ujwaldhakal/go-blog-example/post"
 	docs "github.com/ujwaldhakal/go-blog-example/docs"
 )
 
@@ -18,5 +19,6 @@ func main() {
 	})
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	auth.RegisterAuthRoutes(r)
+	post.RegisterPostAuth(r)
 	r.Run(":8081")
 }

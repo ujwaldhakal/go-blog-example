@@ -24,6 +24,27 @@ definitions:
     type: object
   auth.Response:
     type: object
+  common.Response:
+    properties:
+      code:
+        format: json
+      message:
+        format: string
+        type: string
+      status:
+        format: string
+        type: string
+    type: object
+  post_service.postCreateRequest:
+    properties:
+      description:
+        type: string
+      title:
+        type: string
+    required:
+    - description
+    - title
+    type: object
 info:
   contact: {}
 paths:
@@ -47,6 +68,25 @@ paths:
           schema:
             $ref: '#/definitions/auth.Response'
       summary: Authenticates when provided with login details
+  /posts:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Parameters should not be empty
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/post_service.postCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: Creates post
   /register:
     post:
       consumes:
