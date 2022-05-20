@@ -7,6 +7,7 @@ import (
 	_ "fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
+	"github.com/ujwaldhakal/go-blog-example/auth/repository"
 	auth "github.com/ujwaldhakal/go-blog-example/auth/service"
 	db2 "github.com/ujwaldhakal/go-blog-example/db"
 	"github.com/ujwaldhakal/go-blog-example/user"
@@ -63,7 +64,7 @@ func TestLoginWhenInvalidPayloadIsProvided(t *testing.T) {
 		panic(err)
 	}
 
-	assert.Equal(t, "Sorry username is incorrect", obj["message"])
+	assert.Equal(t, auth.UsernameOrPasswordIncorrect, obj["message"])
 }
 
 func TestLoginWhenValidCredentialsIsProvided(t *testing.T) {
@@ -87,17 +88,17 @@ func TestLoginWhenValidCredentialsIsProvided(t *testing.T) {
 
 func TearDown() {
 	db := db2.GetConnection()
-	db.AutoMigrate(&user.User{})
-	db.Raw("Truncate table users")
+	db.Exec("Truncate table users")
 }
 
 func hydrateData() {
 	db := db2.GetConnection()
+	password, _ := repository.HashPassword("password")
 	db.Create(&user.User{
 		ID:          0,
 		Name:        "ujwal",
 		Email:       "john@doe.com",
-		Password:    "password",
+		Password:    password,
 		Birthday:    nil,
 		ActivatedAt: sql.NullTime{},
 		CreatedAt:   time.Time{},

@@ -5,8 +5,11 @@ import (
 	_ "fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/ujwaldhakal/go-blog-example/auth/repository"
+	"github.com/ujwaldhakal/go-blog-example/common"
 	"net/http"
 )
+
+var UsernameOrPasswordIncorrect = "Sorry username or password is incorrect"
 
 type LoginRequest struct {
 	Email string `json:"email"  binding:"required"`
@@ -44,7 +47,6 @@ func respond(response *Response) gin.H {
 func Login(c *gin.Context) {
 	var requestBody LoginRequest
 
-	fmt.Println("here man", c.Request.Body)
 	if err := c.BindJSON(&requestBody); err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -57,12 +59,12 @@ func Login(c *gin.Context) {
 	isAuthenticated := repository.Authenticate(userName, password)
 
 	if !isAuthenticated {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "Sorry username is incorrect"})
+		common.RespondUnauthorized(c, UsernameOrPasswordIncorrect)
 		return
 	}
 
 	token, _ := GenerateJwtToken(userName)
 	dataMap := make(map[string]string)
 	dataMap["token"] = token
-	c.JSON(200, respond(&Response{status: "success", code: http.StatusOK, message: "success", data: dataMap}))
+	c.JSON(http.StatusOK, respond(&Response{status: "success", code: http.StatusOK, message: "success", data: dataMap}))
 }
