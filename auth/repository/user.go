@@ -13,7 +13,6 @@ func Authenticate(username string, password string) bool {
 	return len(users) > 0
 }
 
-
 func Register(username string, password string) bool {
 	con := db.GetConnection()
 	var users []user.User

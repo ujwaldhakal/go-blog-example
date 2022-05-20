@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/ujwaldhakal/go-blog-example/auth"
-	docs "github.com/ujwaldhakal/go-blog-example/docs"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/ujwaldhakal/go-blog-example/auth"
+	docs "github.com/ujwaldhakal/go-blog-example/docs"
 )
 
 func main() {

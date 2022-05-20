@@ -13,7 +13,7 @@ type Claims struct {
 
 var jwtSecret = "secret"
 
-func GenerateJwtToken(email string) (string,error) {
+func GenerateJwtToken(email string) (string, error) {
 
 	var mySigningKey = []byte(jwtSecret)
 	token := jwt.New(jwt.SigningMethodHS256)
