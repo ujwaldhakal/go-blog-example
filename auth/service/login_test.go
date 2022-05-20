@@ -22,16 +22,16 @@ func setupRouter() (*gin.Engine, *httptest.ResponseRecorder) {
 	db := db2.GetConnection()
 	db.AutoMigrate(&user.User{})
 
-	r.POST("v1/login",auth.Login)
+	r.POST("v1/login", auth.Login)
 
 	w := httptest.NewRecorder()
 
-	return r,w
+	return r, w
 }
 
 func TestLoginWhenEmptyPayloadIsProvided(t *testing.T) {
 
-	r,w := setupRouter()
+	r, w := setupRouter()
 	defer TearDown()
 	req, _ := http.NewRequest("POST", "/v1/login", nil)
 	r.ServeHTTP(w, req)
@@ -43,13 +43,12 @@ func TestLoginWhenEmptyPayloadIsProvided(t *testing.T) {
 		panic(err)
 	}
 
-	assert.Equal(t,"invalid request",obj["error"])
+	assert.Equal(t, "invalid request", obj["error"])
 }
-
 
 func TestLoginWhenInvalidPayloadIsProvided(t *testing.T) {
 
-	r,w := setupRouter()
+	r, w := setupRouter()
 	defer TearDown()
 	var jsonStr = []byte(`{"email":"username", "password": "password"}`)
 
@@ -64,12 +63,11 @@ func TestLoginWhenInvalidPayloadIsProvided(t *testing.T) {
 		panic(err)
 	}
 
-	assert.Equal(t,"Sorry username is incorrect",obj["message"])
+	assert.Equal(t, "Sorry username is incorrect", obj["message"])
 }
 
-
 func TestLoginWhenValidCredentialsIsProvided(t *testing.T) {
-	r,w := setupRouter()
+	r, w := setupRouter()
 	TearDown()
 	hydrateData()
 	var jsonStr = []byte(`{"email":"john@doe.com", "password": "password"}`)
@@ -84,7 +82,7 @@ func TestLoginWhenValidCredentialsIsProvided(t *testing.T) {
 		panic(err)
 	}
 	token := obj["data"].(map[string]interface{})["token"]
-	assert.NotEmpty(t,token)
+	assert.NotEmpty(t, token)
 }
 
 func TearDown() {
@@ -93,7 +91,7 @@ func TearDown() {
 	db.Raw("Truncate table users")
 }
 
-func hydrateData()  {
+func hydrateData() {
 	db := db2.GetConnection()
 	db.Create(&user.User{
 		ID:          0,
