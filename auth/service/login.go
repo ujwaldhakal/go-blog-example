@@ -44,7 +44,6 @@ func respond(response *Response) gin.H {
 func Login(c *gin.Context) {
 	var requestBody LoginRequest
 
-	fmt.Println("here man", c.Request.Body)
 	if err := c.BindJSON(&requestBody); err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -64,5 +63,5 @@ func Login(c *gin.Context) {
 	token, _ := GenerateJwtToken(userName)
 	dataMap := make(map[string]string)
 	dataMap["token"] = token
-	c.JSON(200, respond(&Response{status: "success", code: http.StatusOK, message: "success", data: dataMap}))
+	c.JSON(http.StatusOK, respond(&Response{status: "success", code: http.StatusOK, message: "success", data: dataMap}))
 }

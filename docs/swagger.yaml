@@ -9,6 +9,19 @@ definitions:
     - email
     - password
     type: object
+  auth.RegisterRequest:
+    properties:
+      confirmation_password:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - confirmation_password
+    - email
+    - password
+    type: object
   auth.Response:
     type: object
 info:
@@ -34,4 +47,32 @@ paths:
           schema:
             $ref: '#/definitions/auth.Response'
       summary: Authenticates when provided with login details
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Registers when you provide details
+      parameters:
+      - description: Parameters should not be empty
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/auth.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/auth.Response'
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/auth.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/auth.Response'
+      summary: Registers a user when provided with details
 swagger: "2.0"

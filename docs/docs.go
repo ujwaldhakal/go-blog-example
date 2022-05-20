@@ -46,6 +46,49 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/register": {
+            "post": {
+                "description": "Registers when you provide details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Registers a user when provided with details",
+                "parameters": [
+                    {
+                        "description": "Parameters should not be empty",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/auth.RegisterRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/auth.Response"
+                        }
+                    },
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/auth.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/auth.Response"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -56,6 +99,25 @@ const docTemplate = `{
                 "password"
             ],
             "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "auth.RegisterRequest": {
+            "type": "object",
+            "required": [
+                "confirmation_password",
+                "email",
+                "password"
+            ],
+            "properties": {
+                "confirmation_password": {
+                    "type": "string"
+                },
                 "email": {
                     "type": "string"
                 },

@@ -8,11 +8,6 @@ import (
 	"net/http"
 )
 
-func register(c *gin.Context) {
-	fmt.Println("register called")
-	c.String(http.StatusOK, "registered")
-}
-
 func forgotPassword(c *gin.Context) {
 	fmt.Println("forgotpassword called")
 	c.String(http.StatusOK, "pw reset")
@@ -20,7 +15,7 @@ func forgotPassword(c *gin.Context) {
 
 func RegisterAuthRoutes(route *gin.Engine) {
 	v1 := route.Group("/v1")
-	v1.GET("/register", register)
+	v1.POST("/register", auth.Register)
 	v1.POST("/login", auth.Login)
 	v1.POST("/forgot-password", forgotPassword)
 }
