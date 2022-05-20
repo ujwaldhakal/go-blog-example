@@ -9,9 +9,14 @@ import (
 func Authenticate(username string, password string) bool {
 	con := db.GetConnection()
 	var users []user.User
-	con.Where(&user.User{Email: username, Password: password}).Find(&users)
+	con.Where(&user.User{Email: username}).Find(&users)
+	if len(users) == 0 {
+		return false
+	}
+	existingPw := users[0].Password
+	err := bcrypt.CompareHashAndPassword([]byte(existingPw), []byte(password))
 
-	return len(users) > 0
+	return err == nil
 }
 
 func IsUniqueEmail(email string) bool {
@@ -35,6 +40,6 @@ func Register(username string, password string) error {
 }
 
 func HashPassword(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	return string(bytes), err
 }

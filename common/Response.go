@@ -39,3 +39,7 @@ func RespondBadRequest(c *gin.Context, errorMessage string) {
 func RespondCreated(c *gin.Context, response Response) {
 	c.JSON(http.StatusCreated, respondWithSuccess(&response))
 }
+
+func RespondUnauthorized(c *gin.Context, errorMessage string) {
+	c.JSON(http.StatusUnauthorized, respondWithError(&Response{Message: errorMessage}))
+}

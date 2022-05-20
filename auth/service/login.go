@@ -5,8 +5,11 @@ import (
 	_ "fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/ujwaldhakal/go-blog-example/auth/repository"
+	"github.com/ujwaldhakal/go-blog-example/common"
 	"net/http"
 )
+
+var UsernameOrPasswordIncorrect = "Sorry username or password is incorrect"
 
 type LoginRequest struct {
 	Email string `json:"email"  binding:"required"`
@@ -56,7 +59,7 @@ func Login(c *gin.Context) {
 	isAuthenticated := repository.Authenticate(userName, password)
 
 	if !isAuthenticated {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "Sorry username is incorrect"})
+		common.RespondUnauthorized(c, UsernameOrPasswordIncorrect)
 		return
 	}
 
