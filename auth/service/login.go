@@ -66,5 +66,5 @@ func Login(c *gin.Context) {
 	token, _ := GenerateJwtToken(userName)
 	dataMap := make(map[string]string)
 	dataMap["token"] = token
-	common.RespondOk(c,common.Response{Message: "Authenticated successfully", Data: dataMap})
+	common.RespondOk(c, common.Response{Message: "Authenticated successfully", Data: dataMap})
 }

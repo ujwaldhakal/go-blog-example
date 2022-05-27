@@ -6,9 +6,9 @@ import (
 )
 
 type Response struct {
-	Status  string `json:"status" format:"string"`
-	Message string `json:"message" format:"string"`
-	Code    int    `json:"code" format:"int"`
+	Status  string      `json:"status" format:"string"`
+	Message string      `json:"message" format:"string"`
+	Code    int         `json:"code" format:"int"`
 	Data    interface{} `json:"code" format:"json"`
 }
 

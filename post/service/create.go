@@ -7,7 +7,7 @@ import (
 )
 
 type postCreateRequest struct {
-	Title string `json:"title"  binding:"required"`
+	Title       string `json:"title"  binding:"required"`
 	Description string `json:"description"  binding:"required"`
 }
 
@@ -24,13 +24,13 @@ func Create(c *gin.Context) {
 	var requestBody postCreateRequest
 
 	if err := c.BindJSON(&requestBody); err != nil {
-		common.RespondBadRequest(c,err.Error())
+		common.RespondBadRequest(c, err.Error())
 		return
 	}
 
 	title := requestBody.Title
 	description := requestBody.Description
-	post := post_entity.Post{Title: title, Description:description }
+	post := post_entity.Post{Title: title, Description: description}
 	post.Create()
-	common.RespondCreated(c,common.Response{Message: "Post has been successfully created"})
+	common.RespondCreated(c, common.Response{Message: "Post has been successfully created"})
 }

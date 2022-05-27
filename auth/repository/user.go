@@ -39,6 +39,10 @@ func Register(username string, password string) error {
 	return result.Error
 }
 
+func FindUserByEmail(email string) bool {
+	return !IsUniqueEmail(email)
+}
+
 func HashPassword(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	return string(bytes), err

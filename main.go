@@ -5,8 +5,8 @@ import (
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/ujwaldhakal/go-blog-example/auth"
-	"github.com/ujwaldhakal/go-blog-example/post"
 	docs "github.com/ujwaldhakal/go-blog-example/docs"
+	"github.com/ujwaldhakal/go-blog-example/post"
 )
 
 func main() {

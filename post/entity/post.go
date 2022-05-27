@@ -1,16 +1,16 @@
 package post_entity
 
 import (
-	"fmt"
+	_ "fmt"
 	"github.com/ujwaldhakal/go-blog-example/db"
 	"time"
 )
 
 type Post struct {
 	ID          uint
-	Title        string
-	Description  string
-	UserId    	string
+	Title       string
+	Description string
+	UserId      string
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }
@@ -18,7 +18,6 @@ type Post struct {
 func (p *Post) Create() error {
 	con := db.GetConnection()
 
-	fmt.Println("upto here",p)
 	result := con.Create(p)
 
 	return result.Error

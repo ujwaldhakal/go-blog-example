@@ -6,9 +6,7 @@ import (
 )
 
 func TestGenerateJwtTokenGeneratesToken(t *testing.T) {
-	token,err := GenerateJwtToken("john@doe.com")
+	token, err := GenerateJwtToken("john@doe.com")
 	assert.NotEmpty(t, token)
 	assert.Empty(t, err)
 }
-
-
