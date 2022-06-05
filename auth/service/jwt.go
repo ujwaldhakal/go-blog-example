@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/ujwaldhakal/go-blog-example/auth/repository"
+	"github.com/ujwaldhakal/go-blog-example/user"
 	"time"
 )
 
@@ -34,7 +35,7 @@ func GenerateJwtToken(email string) (string, error) {
 
 }
 
-func ValidateJwtToken(tokenString string) (bool, error) {
+func ValidateJwtToken(tokenString string) (user.User, error) {
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
@@ -48,11 +49,11 @@ func ValidateJwtToken(tokenString string) (bool, error) {
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		email := claims["email"].(string)
-		user := repository.FindUserByEmail(email)
+		user, err := repository.FindUserByEmail(email)
 		fmt.Println(user)
-		if user {
-			return true, nil
+		if err == nil {
+			return user, nil
 		}
 	}
-	return false, err
+	return user.User{}, err
 }

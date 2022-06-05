@@ -10,14 +10,17 @@ import (
 func AuthJwtHeaderToken(c *gin.Context) {
 
 	authHeader := c.Request.Header.Get("Authorization")
-	jwtToken := authHeader[len("Bearer "):]
+	if authHeader != "" {
+		jwtToken := authHeader[len("Bearer "):]
 
-	fmt.Println("tok", jwtToken)
-	status, _ := auth.ValidateJwtToken(jwtToken)
-
-	if !status {
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		fmt.Println("tok", jwtToken)
+		user, err := auth.ValidateJwtToken(jwtToken)
+		c.Set("user", user)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		}
 	}
 	// Continue down the chain to handler etc
+
 	c.Next()
 }
