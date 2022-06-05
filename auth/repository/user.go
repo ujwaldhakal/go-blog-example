@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"errors"
 	db "github.com/ujwaldhakal/go-blog-example/db"
 	"github.com/ujwaldhakal/go-blog-example/user"
 	"golang.org/x/crypto/bcrypt"
@@ -37,6 +38,17 @@ func Register(username string, password string) error {
 	result := con.Create(&user.User{Email: username, Password: hashedPassword})
 
 	return result.Error
+}
+
+func FindUserByEmail(email string) (user.User, error) {
+	con := db.GetConnection()
+	var users []user.User
+	con.Where(&user.User{Email: email}).First(&users)
+
+	if len(users) > 0 {
+		return users[0], nil
+	}
+	return users[0], errors.New("Could not find user")
 }
 
 func HashPassword(password string) (string, error) {

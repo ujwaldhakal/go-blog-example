@@ -47,6 +47,36 @@ const docTemplate = `{
                 }
             }
         },
+        "/posts": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Creates post",
+                "parameters": [
+                    {
+                        "description": "Parameters should not be empty",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/post_service.postCreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/common.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/register": {
             "post": {
                 "description": "Registers when you provide details",
@@ -128,6 +158,37 @@ const docTemplate = `{
         },
         "auth.Response": {
             "type": "object"
+        },
+        "common.Response": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "format": "json"
+                },
+                "message": {
+                    "type": "string",
+                    "format": "string"
+                },
+                "status": {
+                    "type": "string",
+                    "format": "string"
+                }
+            }
+        },
+        "post_service.postCreateRequest": {
+            "type": "object",
+            "required": [
+                "description",
+                "title"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
         }
     }
 }`
